@@ -1,5 +1,10 @@
-
+from textsaveload import *
 import os
+from PIL import Image 
+import numpy
+import cv2
+import mido
+
 loc_program = os.getcwd()
 print("程序位置:" + loc_program)
 loc_pic_orig = loc_program + r"\picture.jpg"
@@ -7,7 +12,7 @@ loc_pic_scaled = loc_program + r"\picture_scaled.jpg"
 
 
 # scaling picture
-from PIL import Image 
+
 infile = loc_pic_orig
 outfile = loc_pic_scaled
 im = Image.open(infile)
@@ -21,10 +26,6 @@ out.save(outfile)
 
 # main
 
-import numpy
-import cv2
-import mido
-
 mid = mido.MidiFile()
 track = mido.MidiTrack()
 mid.tracks.append(track)
@@ -33,29 +34,7 @@ img = cv2.imread(loc_pic_scaled)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 
-# textsave
-def text_save(content,filename,mode = 'a'):
-    file = open(filename,mode)
-    for i in range(len(content)):
-        file.write(str(content[i])+'\n')
-    file.close()
-###
 
-# textread
-def text_read(filename):
-    try:
-        file = open(filename,'r')
-    except IOError:
-        error = []
-        return error
-    content = file.readlines()
-
-    for i in range(len(content)):
-        content[i] = content[i][:len(content[i])-1]
-
-    file.close()
-    return content
-###
 
 # initialize counters
 scan_x = 1                                         # colomns
@@ -139,3 +118,4 @@ while scan_x <= x_scale - 1:
 mid.save('output.mid')
 print("output.mid\n")
 os.system("pause")
+
