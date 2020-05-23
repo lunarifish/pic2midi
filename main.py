@@ -11,10 +11,10 @@ from PIL import Image
 infile = loc_pic_orig
 outfile = loc_pic_scaled
 im = Image.open(infile)
-(x,y) = im.size                            # get the size of original picture
+(x,y) = im.size                                 # get the size of original picture
 height = input("set picture height(1~127):")    # input picture height
 y_scale = int(height)
-x_scale = int(x * y_scale / y)             # calculate width
+x_scale = int(x * y_scale / y)                  # calculate width
 out = im.resize((x_scale,y_scale),Image.ANTIALIAS)
 out.save(outfile)
 
