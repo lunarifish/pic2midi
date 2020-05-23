@@ -1,5 +1,4 @@
 
-
 # textsave
 def text_save(content,filename,mode = 'a'):
     file = open(filename,mode)
