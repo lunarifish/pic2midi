@@ -23,3 +23,18 @@ def locate():
 	else:
 		print("picture does not exist!")
 		os.system("pause >> nul")
+
+
+def locate_gui(path):
+	if str(path).split(".")[-1] == "jpg":
+		return "_scaled.jpg"
+
+	elif str(path).split(".")[-1] == "png":
+		return "_scaled.jpg"
+
+	elif str(path).split(".")[-1] == "jpeg":
+		return "_scaled.jpeg"
+
+	else:
+		print("unsupported format/picture does not exist")
+		os.system("pause >> nul")

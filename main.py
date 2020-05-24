@@ -33,7 +33,7 @@ scan_y = 1                                         # rows
 pixel_count = 0                                    # scaned pixels
 x = stat_pic[0]                                    # original picture width
 y = stat_pic[1]                                    # original picture height
-x_scale = stat_pic[2]                              # scaled pictrue width
+x_scale = stat_pic[2]                              # scaled picture width
 y_scale = stat_pic[3]                              # scaled picture height
 ###
 
