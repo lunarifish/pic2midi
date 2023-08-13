@@ -6,18 +6,8 @@ import mido
 import numpy as np
 
 
-
-
-## Utility Functions ##
-
-def rotate_clockwise(matrix):
-    transposed_matrix = list(zip(matrix))                                   # transpose the matrix
-    return np.array(list(map(list, reversed(transposed_matrix))))           # reverse the transposed matrix
-
 def data_standardization(data_max, data_min, current_data):
     return (current_data - data_min) / (data_max - data_min)
-
-###########################
 
 
 
