@@ -23,9 +23,11 @@ def data_standardization(data_max, data_min, current_data):
 
 
 args = sys.argv[1:]
-PICTURE_PATH = r"123.png"
-OUTPUT_PATH = ...
-MIDI_PIC_HEIGHT = 127
+if len(args) != 2:
+    print("Usage: main.py picture_path midi_height")
+    os._exit(1)
+
+PICTURE_PATH, MIDI_PIC_HEIGHT = args[0], int(args[1])
 
 
 
@@ -70,4 +72,5 @@ for line_index, line in enumerate(img_scaled_grayscale_rotated):
             track.append(mido.Message("note_off", note=MIDI_PIC_HEIGHT - index, velocity=velocity, time=0))
 
 
-mid.save("output.mid")
+output_filename = "".join(PICTURE_PATH.split(".")[:-1]) + ".mid"
+mid.save(output_filename)
