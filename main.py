@@ -60,7 +60,7 @@ track = mido.MidiTrack()
 mid.tracks.append(track)
 
 
-for line_index, line in enumerate(img_scaled_grayscale_rotated):
+for line in img_scaled_grayscale_rotated:
     for index, pixel in enumerate(line):
         velocity = int(data_standardization(max_gray, min_gray, pixel) * 127)
         track.append(mido.Message("note_on", note=MIDI_PIC_HEIGHT - index, velocity=velocity, time=0))
