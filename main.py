@@ -6,13 +6,11 @@ import mido
 import numpy as np
 
 
-
 def data_standardization(data_max, data_min, current_data):
     return (current_data - data_min) / (data_max - data_min)
 
 
-
-## Process user input
+# Process user input
 args = sys.argv[1:]
 try:
     if len(args) != 2:
@@ -28,8 +26,7 @@ except Exception:
 ######################
 
 
-
-## Scaling picture
+# Scaling picture
 try:
     img = cv2.imread(PICTURE_PATH)
 except Exception:
@@ -38,7 +35,8 @@ except Exception:
 x_original, y_original = img.shape[1::-1]
 resize_multiplier = MIDI_PIC_HEIGHT / y_original
 
-img_scaled = cv2.resize(img, (round(x_original * resize_multiplier), MIDI_PIC_HEIGHT))
+img_scaled = cv2.resize(
+    img, (round(x_original * resize_multiplier), MIDI_PIC_HEIGHT))
 x_scaled, y_scaled = round(x_original * resize_multiplier), MIDI_PIC_HEIGHT
 
 img_scaled_grayscale = cv2.cvtColor(img_scaled, cv2.COLOR_BGR2GRAY)
@@ -51,19 +49,16 @@ img_scaled_grayscale_rotated = np.rot90(img_scaled_grayscale)
 ######################
 
 
-
-## Pre-compute grey value to velocity table
+# Pre-compute grey value to velocity table
 velocity_gray_table = [None] * min_gray
 for i in range(min_gray, max_gray + 1):
-    velocity_gray_table.append(int(data_standardization(max_gray, min_gray, i) * 127))
+    velocity_gray_table.append(
+        int(data_standardization(max_gray, min_gray, i) * 127))
 
 ######################
 
 
-
-
-## Generate .mid file
-
+# Generate .mid file
 mid = mido.MidiFile()
 track = mido.MidiTrack()
 mid.tracks.append(track)
@@ -71,12 +66,15 @@ mid.tracks.append(track)
 
 for line in img_scaled_grayscale_rotated:
     for index, pixel in enumerate(line):
-        track.append(mido.Message("note_on", note=index, velocity=velocity_gray_table[pixel], time=0))
+        track.append(mido.Message("note_on", note=index,
+                     velocity=velocity_gray_table[pixel], time=0))
     for index, pixel in enumerate(line):
         if index == 0:
-            track.append(mido.Message("note_off", note=index, velocity=velocity_gray_table[pixel], time=200))
+            track.append(mido.Message("note_off", note=index,
+                         velocity=velocity_gray_table[pixel], time=200))
         else:
-            track.append(mido.Message("note_off", note=index, velocity=velocity_gray_table[pixel], time=0))
+            track.append(mido.Message("note_off", note=index,
+                         velocity=velocity_gray_table[pixel], time=0))
 
 
 output_filename = "".join(PICTURE_PATH.split(".")[:-1]) + ".mid"
