@@ -21,6 +21,7 @@ try:
 
     PICTURE_PATH, MIDI_PIC_HEIGHT = args[0], int(args[1])
 except Exception:
+    print("Error: Invalid input")
     os._exit(1)
 
 ######################
@@ -49,10 +50,12 @@ img_scaled_grayscale_rotated = np.rot90(img_scaled_grayscale)
 
 
 # Pre-compute grey value to velocity table
-velocity_gray_table = [None] * min_gray
+velocity_gray_table = [None] * min_gray     # fill values before min gray value with None, these won't be looked up
 for i in range(min_gray, max_gray + 1):
     velocity_gray_table.append(int(data_standardization(max_gray, min_gray, i) * 127))
-
+for index, i in enumerate(velocity_gray_table):
+    if i == 0:
+        velocity_gray_table[index] = 1
 ######################
 
 
@@ -63,9 +66,9 @@ mid.tracks.append(track)
 
 
 for line in img_scaled_grayscale_rotated:
-    for index, pixel in enumerate(line):
+    for index, pixel in enumerate(reversed(line)):
         track.append(mido.Message("note_on", note=index, velocity=velocity_gray_table[pixel], time=0))
-    for index, pixel in enumerate(line):
+    for index, pixel in enumerate(reversed(line)):
         if index == 0:
             track.append(mido.Message("note_off", note=index, velocity=velocity_gray_table[pixel], time=200))
         else:
